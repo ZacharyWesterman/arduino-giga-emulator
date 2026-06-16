@@ -1,10 +1,13 @@
 #include <cstring>
 #include <define.h>
 #include <iostream>
-#include <raylib.h>
 
 #include "Arduino.h"
 #include "ino.hpp"
+
+#if __has_include("src/ui.hpp")
+
+#include <raylib.h>
 #include "src/ui.hpp"
 
 void DrawOverlayText(const char *text, int posX, int posY, int fontSize = 20) {
@@ -60,3 +63,15 @@ int main() {
 
 	CloseWindow();
 }
+
+#else
+
+int main() {
+	setup();
+
+	while (true) {
+		loop();
+	}
+}
+
+#endif
