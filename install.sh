@@ -5,6 +5,8 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
-ln -s "$(dirname "${BASH_SOURCE[0]}")/emulate" ~/.local/bin/"$1"
+[ -L ~/.local/bin/"$1" ] && rm -f ~/.local/bin/"$1"
+
+ln -s "$(pwd)/emulate" ~/.local/bin/"$1"
 
 echo "Created symlink to \`$1\`."

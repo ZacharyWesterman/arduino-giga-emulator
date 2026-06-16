@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-EMU=$(dirname "${BASH_SOURCE[0]}")
+EMU=$(dirname "$(realpath "${BASH_SOURCE[0]}")")
 
 args=()
 filename=''
