@@ -34,3 +34,10 @@ emulate your_sketch.ino
 
 All of the above (required) libraries are supported, and any that don't rely on specific hardware are also supported! (it's just C++ code after all).
 `Serial` and `String` are supported as basic wrappers for `std::cout` and `std::string`, respectively.
+
+## Adding emulation support for your project
+
+The emulator defines the `EMULATE` directive, so you can wrap any hardware-specific
+logic or includes with an `#ifndef EMULATE` guard to enable testing of your main application code.
+This does mean that testing the actual hardware-specific code is not possible when emulating,
+but it's a necessary sacrifice to be able to test the rest of the application.
