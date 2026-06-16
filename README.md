@@ -25,3 +25,12 @@ This just makes a symlink to the `./emulate` script.
 ## Usage
 
 After installing, you can run `emulate --help` to see usage.
+
+To emulate a sketch, run:
+
+```
+emulate your_sketch.ino
+```
+
+All of the above (required) libraries are supported, and any that don't rely on specific hardware are also supported! (it's just C++ code after all).
+`Serial` and `String` are supported as basic wrappers for `std::cout` and `std::string`, respectively.
