@@ -1,17 +1,14 @@
 ARDUINO_INCLUDES = \
 	-I"${HOME}/Arduino/libraries/Adafruit_GFX_Library" \
-	-I"${HOME}/Arduino/libraries/Arduino_GigaDisplayTouch/src" \
-	-I"${HOME}/Arduino/libraries/Arduino_GigaDisplay_GFX/src" \
-	-I${HOME}/Arduino/libraries/JPEGDEC/src \
-	-I${HOME}/Arduino/libraries/PNGdec/src
+	$(foreach x, $(wildcard ${HOME}/Arduino/libraries/*/src), -I$(x))
 
 SOURCES=$(shell find src -type f -iname '*.cpp')
 OBJECTS=$(foreach x, $(basename $(SOURCES)), $(x).o)
 
 ARDUINO_SOURCES=$(shell find arduino -type f -iname '*.cpp')
 ARDUINO_OBJECTS=$(foreach x, $(basename $(ARDUINO_SOURCES)), $(x).o) \
-	arduino/JPEGDEC.o \
-	arduino/PNGdec.o \
+	arduino/lib_JPEGDEC.o \
+	arduino/lib_PNGdec.o \
 	arduino/png_inffast.o \
 	arduino/png_adler32.o \
 	arduino/png_crc32.o \
@@ -51,10 +48,7 @@ main.o: main.cpp
 arduino/%.o: arduino/%.cpp arduino/%.h
 	$(CXX) $(CFLAGS) -o $@ -c $<
 
-arduino/JPEGDEC.o: $(HOME)/Arduino/libraries/JPEGDEC/src/JPEGDEC.cpp
-	$(CXX) $(CFLAGS) $(STD) -o $@ -c $<
-
-arduino/PNGdec.o: $(HOME)/Arduino/libraries/PNGdec/src/PNGdec.cpp
+arduino/lib_%.o: $(HOME)/Arduino/libraries/%/src/%.cpp
 	$(CXX) $(CFLAGS) $(STD) -o $@ -c $<
 
 arduino/png_%.o: $(HOME)/Arduino/libraries/PNGdec/src/%.c
