@@ -1,22 +1,12 @@
-ARDUINO_INCLUDES = \
-	-I"${HOME}/Arduino/libraries/Adafruit_GFX_Library" \
-	$(foreach x, $(wildcard ${HOME}/Arduino/libraries/*/src), -I$(x))
+ARDUINO_INCLUDES = $(foreach x,$(EXTRA_INCLUDES),-I${HOME}/Arduino/libraries/$(x))
 
 SOURCES=$(shell find src -type f -iname '*.cpp')
 OBJECTS=$(foreach x, $(basename $(SOURCES)), $(x).o)
 
 ARDUINO_SOURCES=$(shell find arduino -type f -iname '*.cpp')
 ARDUINO_OBJECTS=$(foreach x, $(basename $(ARDUINO_SOURCES)), $(x).o) \
-	arduino/lib_JPEGDEC.o \
-	arduino/lib_PNGdec.o \
-	arduino/png_inffast.o \
-	arduino/png_adler32.o \
-	arduino/png_crc32.o \
-	arduino/png_infback.o \
-	arduino/png_inffast.o \
-	arduino/png_inflate.o \
-	arduino/png_inftrees.o \
-	arduino/png_zutil.o
+	$(patsubst %.cpp,arduino/lib_%.o,$(EXTRA_SOURCES)) \
+	$(foreach x,$(EXTRA_OBJECTS),arduino/$(x))
 
 
 RAYLIB_URL = https://github.com/raysan5/raylib/releases/download/5.5/raylib-5.5_linux_amd64.tar.gz
@@ -32,27 +22,28 @@ STD = -std=c++11
 
 WINDOW_SCALE = 1
 CFLAGS = -DDEBUG -DEMULATE -DARDUINO=300 -DARDUINO_GIGA \
--D__LINUX__ -DWINDOW_SCALE=$(WINDOW_SCALE) \
--m64 -Wno-narrowing -Wextra \
-$(LIB_INCLUDES) $(ARDUINO_INCLUDES)
+	-D__LINUX__ -DWINDOW_SCALE=$(WINDOW_SCALE) \
+	-m64 -Wno-narrowing -Wextra \
+	$(LIB_INCLUDES) $(ARDUINO_INCLUDES) \
+	$(EXTRA_CFLAGS)
 
 
 all: lib src ino
 
 ino: main.o ino.o $(OBJECTS) $(ARDUINO_OBJECTS)
-	$(CXX) -o $@ $^ -l:libraylib.a -lm -lpthread -ldl -lrt -L$(RAYLIB_BIN_DIR)
+	$(CXX) -o $@ $^ -l:libraylib.a -lm -lpthread -ldl -lrt -L$(RAYLIB_BIN_DIR) $(EXTRA_LFLAGS)
 
 main.o: main.cpp
 	$(CXX) $(CFLAGS) $(STD) -o $@ -c $<
 
-arduino/%.o: arduino/%.cpp arduino/%.h
-	$(CXX) $(CFLAGS) -o $@ -c $<
-
-arduino/lib_%.o: $(HOME)/Arduino/libraries/%/src/%.cpp
-	$(CXX) $(CFLAGS) $(STD) -o $@ -c $<
+arduino/lib_%.o: $(HOME)/Arduino/libraries/%/src
+	$(CXX) $(CFLAGS) $(STD) -o $@ -c $</$(patsubst arduino/lib_%.o,%,$@).cpp
 
 arduino/png_%.o: $(HOME)/Arduino/libraries/PNGdec/src/%.c
 	$(CC) $(CFLAGS) -o $@ -c $<
+
+arduino/%.o: arduino/%.cpp arduino/%.h
+	$(CXX) $(CFLAGS) -o $@ -c $<
 
 %.o: %.cpp %.hpp
 	$(CXX) $(CFLAGS) $(STD) -o $@ -c $<

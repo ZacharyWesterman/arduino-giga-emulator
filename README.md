@@ -11,11 +11,7 @@ Emulation is only *officially* supported on Linux. If you can get it running on 
 - `rsync`
 - A C++ compiler (if not `g++`, you'll have to tweak `emulate` to add the `CC=<your_compiler>` flag to the `make command`)
 - The "Arduino Community Edition" VS Code extension, if uploading with VS Code.
-- The following Arduino libraries:
-  - `Arduino_GigaDisplayTouch`
-  - `Arduino_GigaDisplay_GFX`
-  - `JPEGDEC` - Provides support for rendering JPG-encoded data.
-  - `PNGdec` - Provides support for rendering PNG-encoded data.
+- All the Arduino libraries that your project would need in order to be uploaded to your board.
 
 ## Installing
 
@@ -41,3 +37,12 @@ The emulator defines the `EMULATE` directive, so you can wrap any hardware-speci
 logic or includes with an `#ifndef EMULATE` guard to enable testing of your main application code.
 This does mean that testing the actual hardware-specific code is not possible when emulating,
 but it's a necessary sacrifice to be able to test the rest of the application.
+
+To add special compile flags and dependencies for emulating your project, add a `.emulate` file in the root of your project. It should look something like this:
+```
+#Comments start with a hash symbol.
+compiler_flags = # Any extra compiler flags. Usually not needed.
+linker_flags = # Any extra linker flags. Usually not needed.
+sources = # Any .cpp files from libraries that need to be compiled into the project
+objects = # Any .o file that needs including. Usually not needed.
+includes = Adafruit_GFX_Library Arduino_GigaDisplayTouch/src # Etc. any include path you'll need from Arduino libraries.
