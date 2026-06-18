@@ -6,8 +6,7 @@
 
 typedef std::string JsonString;
 typedef std::map<std::string, nlohmann::json> JsonObject;
-
-class JsonDocument : public nlohmann::json {};
+typedef nlohmann::json JsonDocument;
 
 class DeserializationError : public std::string {
     public:

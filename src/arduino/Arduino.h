@@ -54,6 +54,9 @@ public:
 	void begin(int) const {};
 	void print(const String &str) const;
 	void println(const String &str) const;
+	void println() const {
+		println("");
+	}
 
 	operator bool() const {
 		return true;
