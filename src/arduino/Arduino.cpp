@@ -35,11 +35,11 @@ bool String::endsWith(const String& suffix) const {
 	return 0 == compare(length() - suffix.length(), suffix.length(), suffix);
 }
 
-int String::indexOf(char c, int offset) const {
+int String::indexOf(const String& c, int offset) const {
 	return find(c, offset);
 }
 
-int String::lastIndexOf(char c, int offset) const {
+int String::lastIndexOf(const String& c, int offset) const {
 	return rfind(c, offset);
 }
 

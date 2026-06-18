@@ -31,8 +31,8 @@ public:
 
 	bool startsWith(const String& prefix) const;
 	bool endsWith(const String& suffix) const;
-	int indexOf(char c, int offset = 0) const;
-	int lastIndexOf(char c, int offset = 0) const;
+	int indexOf(const String& c, int offset = 0) const;
+	int lastIndexOf(const String& c, int offset = 0) const;
 	void toLowerCase();
 	void concat(const char* str, int len);
 	char charAt(int index) const;
