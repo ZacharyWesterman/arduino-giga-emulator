@@ -7,6 +7,8 @@
 #define HIGH 1
 #define LOW 0
 #define PROGMEM
+#define OUTPUT true
+#define INPUT false
 
 class String : public std::string {
 public:
@@ -45,6 +47,7 @@ unsigned long millis();
 void delay(unsigned long ms);
 
 void digitalWrite(int pinNumber, bool pinStatus);
+void pinMode(int pinNumber, bool pinStatus);
 
 class serialOut {
 public:

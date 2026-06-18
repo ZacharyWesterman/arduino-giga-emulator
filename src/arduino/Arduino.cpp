@@ -83,6 +83,7 @@ void delay(unsigned long ms) {
 }
 
 void digitalWrite(int pinNumber, bool pinStatus) {}
+void pinMode(int pinNumber, bool pinStatus) {}
 
 void serialOut::print(const String &str) const {
 	std::cout << str << std::flush;
