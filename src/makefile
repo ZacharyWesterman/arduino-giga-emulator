@@ -30,7 +30,7 @@ CFLAGS = -DDEBUG -DEMULATE -DARDUINO=300 -DARDUINO_GIGA \
 	-Dstrcmp_P=strcmp -Dmemcmp_P=memcmp
 
 
-all: libs src ino
+all: libs ino
 
 ino: main.o ino.o $(OBJECTS) $(ARDUINO_OBJECTS)
 	$(CXX) -o $@ $^ -l:libraylib.a -lm -lpthread -ldl -lrt -L$(RAYLIB_BIN_DIR) $(EXTRA_LFLAGS)
@@ -50,8 +50,8 @@ arduino/%.o: arduino/%.cpp arduino/%.h
 %.o: %.cpp %.hpp
 	$(CXX) $(CFLAGS) $(STD) -o $@ -c $<
 
-src: libs
-	rsync -a ../src .
+# src: libs
+# 	rsync -a ../src .
 
 
 lib: lib/.sentinel

@@ -7,13 +7,12 @@
 typedef std::string JsonString;
 typedef std::map<std::string, nlohmann::json> JsonObject;
 
+// This is FUCKED tbh.
+#define as get
+#define isNull is_null
+
 class JsonDocument : public nlohmann::json {
 public:
-
-    template <typename T>
-    T as() {
-        return get<T>();
-    }
 
     template <typename T>
     bool is();
