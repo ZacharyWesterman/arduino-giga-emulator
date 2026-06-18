@@ -3,6 +3,7 @@
 #include <chrono>
 #include <iostream>
 #include <thread>
+#include <algorithm>
 
 String::String(const char *value) : std::string(value) {}
 String::String() : std::string() {}
@@ -26,12 +27,48 @@ String String::operator+(int rhs) const {
 	return *this + String(rhs);
 }
 
+bool String::startsWith(const String& prefix) const {
+	return 0 == compare(0, prefix.length(), prefix);
+}
+
 bool String::endsWith(const String& suffix) const {
 	return 0 == compare(length() - suffix.length(), suffix.length(), suffix);
 }
 
-int String::lastIndexOf(char c, int index) const {
-	return rfind(c, index);
+int String::indexOf(char c, int offset) const {
+	return find(c, offset);
+}
+
+int String::lastIndexOf(char c, int offset) const {
+	return rfind(c, offset);
+}
+
+void String::toLowerCase() {
+	for (size_t i = 0; i < length(); i++) {
+		this->at(i) = std::tolower(this->at(i));
+	}
+}
+
+void String::concat(const char* str, int len) {
+	operator+=(std::string(str, len));
+}
+
+char String::charAt(int index) const {
+	return at(index);
+}
+
+void String::trim() {
+    erase(begin(), std::find_if(begin(), end(), [](unsigned char ch) {
+        return !std::isspace(ch);
+    }));
+
+    erase(std::find_if(rbegin(), rend(), [](unsigned char ch) {
+        return !std::isspace(ch);
+    }).base(), end());
+}
+
+int String::toInt() const {
+	return std::stoi(*this);
 }
 
 unsigned long millis() {

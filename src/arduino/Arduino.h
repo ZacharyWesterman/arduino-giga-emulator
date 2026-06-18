@@ -29,8 +29,15 @@ public:
 
 	String operator+(int rhs) const;
 
+	bool startsWith(const String& prefix) const;
 	bool endsWith(const String& suffix) const;
+	int indexOf(char c, int offset = 0) const;
 	int lastIndexOf(char c, int offset = 0) const;
+	void toLowerCase();
+	void concat(const char* str, int len);
+	char charAt(int index) const;
+	void trim();
+	int toInt() const;
 };
 
 unsigned long millis();
