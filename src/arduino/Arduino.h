@@ -28,6 +28,9 @@ public:
 	bool isEmpty() const;
 
 	String operator+(int rhs) const;
+
+	bool endsWith(const String& suffix) const;
+	int lastIndexOf(char c, int offset = 0) const;
 };
 
 unsigned long millis();

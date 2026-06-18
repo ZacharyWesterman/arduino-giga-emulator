@@ -26,6 +26,14 @@ String String::operator+(int rhs) const {
 	return *this + String(rhs);
 }
 
+bool String::endsWith(const String& suffix) const {
+	return 0 == compare(length() - suffix.length(), suffix.length(), suffix);
+}
+
+int String::lastIndexOf(char c, int index) const {
+	return rfind(c, index);
+}
+
 unsigned long millis() {
 	static auto begin = std::chrono::system_clock::now();
 	auto elapsed = std::chrono::system_clock::now() - begin;

@@ -30,7 +30,7 @@ CFLAGS = -DDEBUG -DEMULATE -DARDUINO=300 -DARDUINO_GIGA \
 	-Dstrcmp_P=strcmp -Dmemcmp_P=memcmp
 
 
-all: lib src ino
+all: libs src ino
 
 ino: main.o ino.o $(OBJECTS) $(ARDUINO_OBJECTS)
 	$(CXX) -o $@ $^ -l:libraylib.a -lm -lpthread -ldl -lrt -L$(RAYLIB_BIN_DIR) $(EXTRA_LFLAGS)
@@ -50,20 +50,33 @@ arduino/%.o: arduino/%.cpp arduino/%.h
 %.o: %.cpp %.hpp
 	$(CXX) $(CFLAGS) $(STD) -o $@ -c $<
 
-src:
+src: libs
 	rsync -a ../src .
 
-lib: $(RAYLIB_TAR_FILE)
+
+lib: lib/.sentinel
+lib/.sentinel:
 	mkdir -p lib
-	tar xzf $< -C lib/ || rm lib -rf
+	touch $@
 
-$(RAYLIB_TAR_FILE):
-	wget $(RAYLIB_URL)
+libs: $(RAYLIB_BIN_DIR)/.sentinel lib/json.hpp
 
-.PHONY: clean wipe
+$(RAYLIB_BIN_DIR)/.sentinel: lib/$(RAYLIB_TAR_FILE)
+	tar xzf $< -C lib/
+	touch $@
+
+lib/$(RAYLIB_TAR_FILE): lib/.sentinel
+	wget $(RAYLIB_URL) -O $@
+	touch $@
+
+lib/json.hpp: lib/.sentinel
+	wget https://github.com/nlohmann/json/releases/download/v3.12.0/json.hpp -O $@
+	touch $@
+
+.PHONY: clean wipe libs
 
 clean:
 	rm -rf src ino *.o ino.cpp arduino/*.o
 
 wipe: clean
-	rm -rf lib $(RAYLIB_TAR_FILE)
+	rm -rf lib
