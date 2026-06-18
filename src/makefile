@@ -25,7 +25,9 @@ CFLAGS = -DDEBUG -DEMULATE -DARDUINO=300 -DARDUINO_GIGA \
 	-D__LINUX__ -DWINDOW_SCALE=$(WINDOW_SCALE) \
 	-m64 -Wno-narrowing -Wextra \
 	$(LIB_INCLUDES) $(ARDUINO_INCLUDES) \
-	$(EXTRA_CFLAGS)
+	$(EXTRA_CFLAGS) \
+	-Dmemcpy_P=memcpy -Dstrlen_P=strlen -Dstrncmp_P=strncmp \
+	-Dstrcmp_P=strcmp -Dmemcmp_P=memcmp
 
 
 all: lib src ino

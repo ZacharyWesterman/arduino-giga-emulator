@@ -24,6 +24,10 @@ public:
 	inline String substring(unsigned int beginIndex) const {
 		return substring(beginIndex, length());
 	}
+
+	bool isEmpty() const;
+
+	String operator+(int rhs) const;
 };
 
 unsigned long millis();

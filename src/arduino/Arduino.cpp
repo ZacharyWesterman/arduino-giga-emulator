@@ -18,6 +18,14 @@ String String::substring(unsigned int beginIndex, unsigned int endIndex) const {
 	return substr(beginIndex, endIndex);
 }
 
+bool String::isEmpty() const {
+	return empty();
+}
+
+String String::operator+(int rhs) const {
+	return *this + String(rhs);
+}
+
 unsigned long millis() {
 	static auto begin = std::chrono::system_clock::now();
 	auto elapsed = std::chrono::system_clock::now() - begin;
