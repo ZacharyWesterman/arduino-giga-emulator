@@ -11,12 +11,7 @@ typedef std::map<std::string, nlohmann::json> JsonObject;
 #define as get
 #define isNull is_null
 
-class JsonDocument : public nlohmann::json {
-public:
-
-    template <typename T>
-    bool is();
-};
+class JsonDocument : public nlohmann::json {};
 
 class DeserializationError : public std::string {
     public:
