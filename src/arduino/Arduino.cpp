@@ -16,7 +16,7 @@ String::String(float value) : std::string(std::to_string(value)) {}
 String::String(const std::basic_string<char> &value) : std::string(value) {}
 
 String String::substring(unsigned int beginIndex, unsigned int endIndex) const {
-	return substr(beginIndex, endIndex);
+	return substr(beginIndex, endIndex - beginIndex);
 }
 
 bool String::isEmpty() const {
