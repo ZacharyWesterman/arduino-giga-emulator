@@ -49,10 +49,6 @@ void String::toLowerCase() {
 	}
 }
 
-void String::concat(const char* str, int len) {
-	operator+=(std::string(str, len));
-}
-
 char String::charAt(int index) const {
 	return at(index);
 }
@@ -91,4 +87,12 @@ void serialOut::print(const String &str) const {
 
 void serialOut::println(const String &str) const {
 	std::cout << str << std::endl;
+}
+
+void String::concat(const char* str, int len) {
+	operator+=(std::string(str, len));
+}
+
+void String::concat(char c) {
+	operator+=(c);
 }

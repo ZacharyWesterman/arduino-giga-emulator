@@ -36,10 +36,12 @@ public:
 	int indexOf(const String& c, int offset = 0) const;
 	int lastIndexOf(const String& c, int offset = 0) const;
 	void toLowerCase();
-	void concat(const char* str, int len);
 	char charAt(int index) const;
 	void trim();
 	int toInt() const;
+
+	void concat(const char* str, int len);
+	void concat(char c);
 };
 
 unsigned long millis();
